@@ -1,0 +1,36 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# Eclipse
+target/
+.project
+.settings
+.classpath
+.factorypath
+.apt_*
+
+# VSCode
+.vscode
+
+# IntelliJ
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+*.iml
+*.eml
+/.idea
+/out
+
+# build resources
+build
+dist
+dependency-reduced-pom.xml
+
+# files
+.DS_Store
+*.lock
+*gz
+*local.md
+*.local
+*.public
+*old
+
+# git
+!.gitkeep

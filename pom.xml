@@ -1,0 +1,116 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>software.amazon.samples</groupId>
+  <artifactId>parallel-ddb-queries</artifactId>   
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>parallel-ddb-queries</name>
+
+    <properties>
+        <java.version>1.11</java.version>
+        <aws.sdk.version>1.12.169</aws.sdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>11</maven.compiler.release>
+    </properties>
+
+	  <dependencyManagement>
+	    <dependencies>
+	    
+	      <!-- AWS SDK v2 dependencies -->
+	      <dependency>
+	        <groupId>software.amazon.awssdk</groupId>
+	        <artifactId>bom</artifactId>
+	        <version>2.17.140</version>
+	        <type>pom</type>
+	        <scope>import</scope>
+	      </dependency>
+	      
+	    </dependencies>
+	  </dependencyManagement>
+
+    <dependencies>
+    
+        <!-- AWS SDK v2 dependencies -->
+		<dependency>
+		  <groupId>software.amazon.awssdk</groupId>
+		  <artifactId>dynamodb</artifactId>
+		</dependency>
+		<dependency>
+		  <groupId>software.amazon.awssdk</groupId>
+		  <artifactId>dynamodb-enhanced</artifactId>
+		</dependency>
+        <!-- https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava -->
+		<dependency>
+	 	  <groupId>io.reactivex.rxjava2</groupId>
+		  <artifactId>rxjava</artifactId>
+		  <version>2.2.21</version>
+		</dependency>    
+    
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- AWS SDK v1 dependencies -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-dynamodb</artifactId>
+            <version>${aws.sdk.version}</version>
+        </dependency>
+                
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+	      <plugins>
+	        <plugin>
+	          <groupId>org.apache.maven.plugins</groupId>
+	          <artifactId>maven-shade-plugin</artifactId>
+	          <version>3.2.4</version>
+	        </plugin>
+	      </plugins>
+	    </pluginManagement>
+    
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.11</source>
+                    <target>1.11</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.4</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>shaded</shadedClassifierName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>            
+    </plugins>
+    </build>
+</project>

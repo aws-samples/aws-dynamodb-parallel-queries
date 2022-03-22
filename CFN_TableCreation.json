@@ -1,0 +1,102 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+
+    "Parameters" : {
+
+        "DDBTableName" : {
+            "Description" : "Name of the DynamoDBTable",
+            "Type" : "String",
+            "MinLength" : "1",
+            "MaxLength" : "80"
+        }
+    },
+
+    "Resources": {
+        "DDBTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "DeletionPolicy" : "Retain",
+            "Properties": {
+                "AttributeDefinitions": [
+                    {
+                        "AttributeName": "id",
+                        "AttributeType": "S"
+                    },
+                    {
+                        "AttributeName": "category",
+                        "AttributeType": "S"
+                    },
+                    {
+                        "AttributeName": "order-date",
+                        "AttributeType": "S"
+                    },
+                    {
+                        "AttributeName": "query-slot-mod64",
+                        "AttributeType": "N"
+                    },
+                    {
+                        "AttributeName": "query-slot-mod128",
+                        "AttributeType": "N"
+                    }                    
+                ],
+                "KeySchema": [
+                    {
+                        "AttributeName": "id",
+                        "KeyType": "HASH"
+                    }
+                ],
+                "TableName": {"Ref": "DDBTableName"},
+                "BillingMode": "PAY_PER_REQUEST",
+                "GlobalSecondaryIndexes": [
+                    {
+                        "IndexName": "category-order-date-index",
+                        "KeySchema": [
+                            {
+                                "AttributeName": "category",
+                                "KeyType": "HASH"
+                            },
+                            {
+                                "AttributeName": "order-date",
+                                "KeyType": "RANGE"
+                            }                            
+                        ],
+                        "Projection": {
+                            "ProjectionType": "ALL"
+                        }
+                    },
+                    {
+                        "IndexName": "category-query-slot-mod64-index",
+                        "KeySchema": [
+                            {
+                                "AttributeName": "category",
+                                "KeyType": "HASH"
+                            },
+                            {
+                                "AttributeName": "query-slot-mod64",
+                                "KeyType": "RANGE"
+                            }                            
+                        ],
+                        "Projection": {
+                            "ProjectionType": "ALL"
+                        }
+                    },
+                    {
+                        "IndexName": "category-query-slot-mod128-index",
+                        "KeySchema": [
+                            {
+                                "AttributeName": "category",
+                                "KeyType": "HASH"
+                            },
+                            {
+                                "AttributeName": "query-slot-mod128",
+                                "KeyType": "RANGE"
+                            }                            
+                        ],
+                        "Projection": {
+                            "ProjectionType": "ALL"
+                        }
+                    }                                        
+                ]
+            }
+        }
+    }
+}
